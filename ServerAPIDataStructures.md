@@ -72,6 +72,8 @@ Non-defining fields:
 - Hansard link: List(url)
     * Validity: domain must be aph.gov.au, parliament.vic.gov.au, etc. (preloaded permit-list - note that url sanitation is nontrivial).
     * Permissions: n/a
+- Connected_with_others:
+    * TODO: this should allow a citizen to express a list of connected questions.
 - Keywords: List(String)
     * Validity: short list of short words
     * Permission: n/a

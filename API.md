@@ -148,9 +148,23 @@ M includes:
 
 ### Edit Registration
 
-## Query functions
+## Get functions
 
-Query functions ask for current updates, since the last sync. The answers do not include proofs of proper inclusion, but do include enough information that, in future, the client will be able to verify that the replies are included in a published hash.  Some already have been; others are pending and will be published in the next one.
+Get function ask for things without altering the server's state.
+
+TODO: Update this for the new mindset where we cannot really store all the questions on the device, nor do searching on-device.  Needs more thought.  At least, we'll need:
+
+- Find-similar-questions,  which will take a draft and perhaps some other metadata, and return a list of similar questions according to NLP analysis.
+- Find-matching, which will take a list of metadata requirements (e.g. question-writer, who-should-answer, who-should-ask, keywords?) and return all the (unexpired) matching questions
+    * Prob only want top 30
+    * and a count
+    * Might want to be able to get next 30, etc. 
+    * Might want a timestamp, so 
+    * Maybe have something a bit like "new questions are available - refresh?" to pick up things that have arrived since you started looking. But this has a different meaning from 'I'm still scrolling'
+
+**FIX** from here for the setting where we merely query the server rather than keeping a complete copy.
+
+Get functions query for current updates, since the last sync. The answers do not include proofs of proper inclusion, but do include enough information that, in future, the client will be able to verify that the replies are included in a published hash.  Some already have been; others are pending and will be published in the next one.
 
 (VT: There should be some fairly standard ways to do this in an automatic way, which we could adopt. I've threaded (server) timestamps through it on the basis that that's probably a good way for the server to know what the client needs, but there may be better ways to do it.)  
 
