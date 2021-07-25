@@ -41,7 +41,7 @@ Defining fields:
 
 - Question_Text: string
     * Validity: character length
-    * Permission: must be from the question-suggester
+    * Permission: must be from the question-writer
     * compulsory
 - Question_Writer: Entity
     * Validity: must be a system user.
@@ -56,7 +56,7 @@ Non-defining fields:
 
 - Background: string
     * Validity: character length
-    * Permission: must be from the question-suggester
+    * Permission: must be from the question-writer
 - MP_Who_Should_Ask_The_Questions: List(Entity)
     * Validity: must be MPs.  
     * Permission: n/a
@@ -68,12 +68,13 @@ Non-defining fields:
     * Permission: must be from an MP 
 - Answer_accepted: bool (default false)
     * Validity: n/a
-    * Permission: must be from the question-suggester
+    * Permission: must be from the question-writer
 - Hansard link: List(url)
     * Validity: domain must be aph.gov.au, parliament.vic.gov.au, etc. (preloaded permit-list - note that url sanitation is nontrivial).
     * Permissions: n/a
-- Connected_with_others:
-    * TODO: this should allow a citizen to express a list of connected questions.
+- Is_followup_to : Question-Id 
+    * Validity: must be a pre-existing Question-Id
+    * Permissions: TODO: think about whether only the question-writer can write a followup.
 - Keywords: List(String)
     * Validity: short list of short words
     * Permission: n/a
