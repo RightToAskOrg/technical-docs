@@ -47,10 +47,10 @@ Defining fields:
     * Validity: must be a system user.
     * Permission: n/a 
     * compulsory
-- Expiry_Date: Date
-    - Validity: must be later than present
-    - Permission: n/a
-    - compulsory
+- Upload Timestamp: date
+
+Should have low granularity, e.g. day without minutes, because we don't want the same question repeated every second.
+
 
 Non-defining fields:
 
@@ -86,6 +86,16 @@ Bookkeeping fields:
 
 - Question-Id = H(Question_Text, Question_Writer, Expiry_Date)
 - Last_Update: BB_Index
+
+**Question:
+
+Do we want 
+- Expiry_Date: Date
+    - Validity: must be later than present
+    - Permission: n/a
+    - compulsory
+
+or do we simply want the search/sort functions to prioritize recent questions? And maybe let you go in to the past if you want.
 
 (** TODO: Check that this definition of question-id is consistent with ElectionGuard's contest-id, which is a hash of some election data.) 
 
