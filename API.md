@@ -45,13 +45,13 @@ First read the [Main Data structures](https://righttoaskorg.github.io/righttoask
 
 ## Post functions
 
-Each upload is divided into two parts: data to be uploaded to the BB, and other optional metadata.  The BB data also needs the client's signature.  So a typical post, e.g. for account creation, question-posting, or voting, has this structure:
+Each upload is divided into two parts: data to be uploaded to the BB, and other optional unsigned data.  The BB data also needs the client's signature.  So a typical post, e.g. for account creation, question-posting, or voting, has this structure:
 
 **Post**
 
 - D = data
 - CSig = signature<sub>Client</sub>(data)
-- M = metadata
+- U = Unsigned Data
 
 This receives an immediate acknowledgement from the server, of the form:
 
@@ -61,7 +61,7 @@ This receives an immediate acknowledgement from the server, of the form:
 
 where h indicates a cryptographic hash function (e.g. SHA256), for use in the BB proofs.  This is a promise from the server that D, CSig  (or, more precisely, h(D,CSig)) will be included on the BB.
 
-The role of the metadata M is to allow the client to upload extraneous info to the server without that info being posted on the BB.
+The role of the Unsigned Data M is to allow the client to upload extraneous info to the server without that info being posted on the BB.
 
 At this point, the data should appear in BB.get_pending_hash_values.
 
@@ -71,8 +71,8 @@ The exact requirements for the data obviously depend on the specific kind of mes
 
 ### New Question
 
-- D =  Question
-- M =  List(Enc(address, MP public key))
+- D =  Question, without upload timestamp
+- U =  List(Enc(address, MP public key))
 
 Responses: 
 
@@ -85,7 +85,7 @@ The server applies question's [validity and permission rules](#question_def) (wh
 
 (VT: Consider exactly how perfectly equal a duplicate should need to be in order to be automatically excluded.  I think the same Question_Text except whitespace, and the same other data. In particular, even an identical question with different background should probably be allowed. Update: this is determined by the Defining Fields - two questions are duplicates iff they  have the same defining fields.)
 
-M is empty if the user has not opted in to sharing their address with their MP, or if they have not tagged their MP as either a MP_Who_Should_Ask_The_Question or Question_Answerer. Otherwise, M contains a list of ciphertexts containing the person's address, encrypted with the public encryption keys of each tagged MP.  (VT: Ask whether this is a useful enough feature for the bother. I suspect not, in which case M is empty.)
+U is empty if the user has not opted in to sharing their address with their MP, or if they have not tagged their MP as either a MP_Who_Should_Ask_The_Question or Question_Answerer. Otherwise, U contains a list of ciphertexts containing the person's address, encrypted with the public encryption keys of each tagged MP.  (VT: Ask whether this is a useful enough feature for the bother. I suspect not, in which case U is empty.)
 
 (VT: TODO: resolve inconsistencies with registration data structures - atm we don't have public encryption keys, just digital sig keys, but we'll need them for the DM feature. Need to think/ask about multiple public keys for staffers associated with one MP.)
 
@@ -135,27 +135,38 @@ D includes:
 
 - Question_Id:
 
-M includes:
+U includes:
 
 - Info about the nature of the complaint?
 
 The server should not publish who complained.
 
+### Request Validation
+
+U includes:
+
+- email address: string
 
 ### New Registration
 
 D includes:
 
-- Name
-- PK: public key
-- (optional) electorate
-- (optional) email domain
+- Display Name: String
+- UID: String
+- PK: public key: string
+- Type: MP, Org, Person
+- (optional) electorates: List (Chamber, string)
+- (optional) email domain: string
 
-M includes:
+
+U includes:
 
 - (optional) email name
+- Validation Code (?)
 
 (TODO: update registrations for better structure in ServerAPIDataStructures.)
+
+TODO: Consider being used as spam.
 
 ### Edit Registration
 
@@ -169,7 +180,7 @@ D includes:
 - (optional) electorate
 - (optional) email domain
 
-M includes:
+U includes:
 
 - (optional) email name
 
@@ -193,7 +204,7 @@ For each of these, in addition to the Response R, the server also sends:
 
 ** Find-similar-questions **
 
-Takes a draft question (and perhaps some other metadata), and returns a list of similar questions according to NLP analysis.
+Takes a draft question (and perhaps some other Unsigned Data), and returns a list of similar questions according to NLP analysis.
 
 Input: 
 

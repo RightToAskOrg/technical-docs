@@ -47,7 +47,7 @@ Defining fields:
     * Validity: must be a system user.
     * Permission: n/a 
     * compulsory
-- Upload Timestamp: date
+- Upload_Timestamp: date
 
 Should have low granularity, e.g. day without minutes, because we don't want the same question repeated every second.
 
@@ -81,10 +81,13 @@ Non-defining fields:
 - Category: List(Topics)
     * Validity: short list of pre-loaded topics
     * Permission: n/a
+- Expiry_Date: date
+    * Validity: must be later than Upload_Timestamp (and within ?? a year)
+    * Permission: must from the question-writer
 
 Bookkeeping fields:
 
-- Question-Id = H(Question_Text, Question_Writer, Expiry_Date)
+- Question-Id = H(Question_Text, Question_Writer, Upload_Timestamp)
 - Last_Update: BB_Index
 
 **Question:
@@ -167,15 +170,19 @@ An entity is either a public authority (see RightToKnow list), or a user of the 
 
 Defining Fields:
 
-- Username : string
+- UID : string
     * Validity: character length
     * Permission: must be unique
     * compulsory
+    * never changes
 
 Non-defining fields
 
-- Entity_Type: enumeration: Is_MP, Is_Org, Is_Citizen, Is_PublicAuthority
-    * compulsory
+- Display Name
+    * optional
+    * may change 
+- Verified_Representative: List (MP or domain)
+    * optional
 - Public key : key
     * Validity: TBD
     * Permission: n/a
@@ -187,9 +194,7 @@ Non-defining fields
     
 Bookkeeping fields:
 
-- Entity-Id = H(Username)
-
-The username is hashed, stored in the database, and posted on the BB. Everything is public.
+- UID
 
 Note: Entity_Type is not part of the defining fields, because a person could become, or cease to be, an MP.
 
