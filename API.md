@@ -145,7 +145,13 @@ The server should not publish who complained.
 
 U includes:
 
+- UID : String
+- Type: Enum (MP, org or n/a, revoke-MP(UID), revoke-org(UID))
 - email address: string
+
+It will send an email to the email address with a PIN, which it will remember briefly along with U. (Note multiple validation requests may be received from one UID.)
+Note that this means that any member of an org can request revocation for anyone else's - they should probably be told who revoked them, and get an email inviting them to prove that they still have access to the email address they used to validate in the first place.  Maybe a week's grace? Note also that there are, e.g. aph.gov.au email addresses that are not MP's - hence the importance of the two different revoke types. Only readers of a particular MP's email should be able to request revocation of that MP's badge.  But anyone registered as at the org aph.gov.au can request revocation of another's.  TODO: think abt the right thing to do here. 
+TODO: Consider being used as spam.
 
 ### New Registration
 
@@ -154,39 +160,38 @@ D includes:
 - Display Name: String
 - UID: String
 - PK: public key: string
-- Type: MP, Org, Person
+- State: enum
 - (optional) electorates: List (Chamber, string)
-- (optional) email domain: string
 
+It will check uniqueness of UID. Check string lengths. Check PK validity (TBD). If all OK, create a new user and put D data on BB.
+
+
+### Validation proof
 
 U includes:
 
-- (optional) email name
-- Validation Code (?)
+- PIN : String 
+- UID : String
 
-(TODO: update registrations for better structure in ServerAPIDataStructures.)
-
-TODO: Consider being used as spam.
+Finds a (UID, type, PIN, email) record from a validation request (if any) that matches. If so, marks UID as validated for that (type, email) and posts on BB
+- nothing for ordinary (n/a) users,
+- the domain of the verified email for org types,
+- the MP for MP type. 
+It stores the validated email with this UID.
 
 ### Edit Registration
 
 D includes:
 
-- Name
-- PK: New public key
-- Sig: signature on update
-- bool: replace or add
-- bool: can-endorse
-- (optional) electorate
-- (optional) email domain
+- UID: String
+- (optional) Display Name: String
+- (optional) PK: public key: string
+- (optional) State: enum
+- (optional) electorates: List (Chamber, string)
 
-U includes:
+For any of these, if they are present they replace prior values; if they're absent, prior values are retained. For Display Name, an empty string is treated the same as never having stated one. 
 
-- (optional) email name
-
-If the New public key is different from the old, there should be a signature to show the update is sound.
-
-**TODO: Rather than invent own, it would be better to adopt an existing standard.  The two booleans are meant to indicate (a) whether the new registration replaces the old one or adds to it; (b) whether the new key is allowed to endorse other keys.  
+**TODO: Think about changing keys. Ideally it would be signed by the old key, but this isn't possible if the person has lost their device. Rather than invent own, it would be better to adopt an existing standard.  The two booleans are meant to indicate (a) whether the new registration replaces the old one or adds to it; (b) whether the new key is allowed to endorse other keys.  
 
 **TODO: look at other PKI standards; adopt.
 

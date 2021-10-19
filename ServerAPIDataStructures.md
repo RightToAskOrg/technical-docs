@@ -164,33 +164,36 @@ A tally is:
 
 Again, this is hashed, stored in the database, and posted on the BB.
 
-### Entity
+### Person
 
-An entity is either a public authority (see RightToKnow list), or a user of the system.
+A person is a user of the system, who may also have some role(s), e.g. being an MP or an MP's spokesperson.
 
 Defining Fields:
 
 - UID : string
-    * Validity: character length
+    * Validity: character length (30)
     * Permission: must be unique
     * compulsory
     * never changes
 
 Non-defining fields
 
-- Display Name
+- Display Name : string
+    * Validity: character length (50)
     * optional
     * may change 
 - Verified_Representative: List (MP or domain)
     * optional
-- Public key : key
+- Public key : string
     * Validity: TBD
     * Permission: n/a
     * optional
-- State or federal electorate(s),
+- State : enum
     * optional
-- Email domain (e.g. parliament.vic.gov.au or acf.org.au)
-    * compulsory for (Org or MPs) ; optional for other accounts
+- Electorates Represented In : List (chamber, string) 
+    * optional
+- Email : string
+    * optional
     
 Bookkeeping fields:
 
@@ -198,6 +201,21 @@ Bookkeeping fields:
 
 Note: Entity_Type is not part of the defining fields, because a person could become, or cease to be, an MP.
 
+Use a highly visible badge in the UI to mark that a person has been verified as being able to answer MP email.
+
+### MP
+
+This includes all MPs regardless of whether they have created an account on the system.
+
+Defining fields: 
+
+- Chamber: enum
+- Electorate : string
+- MPName : string
+
+
+### Public Authority
+### Role
 
 (TODO: define the data structure for state (state, state electorate, federal electorate)
 
