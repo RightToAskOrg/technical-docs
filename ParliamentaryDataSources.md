@@ -1,0 +1,16 @@
+# Data sources
+
+The following are used as sources of information on data about the names of seats and members
+
+## Parliament of Australia
+From [https://www.aph.gov.au/Senators_and_Members/Guidelines_for_Contacting_Senators_and_Members/Address_labels_and_CSV_files](https://www.aph.gov.au/Senators_and_Members/Guidelines_for_Contacting_Senators_and_Members/Address_labels_and_CSV_files):
+
+- List of all [Members of the House of Representatives](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/FamilynameRepsCSV.csv)
+- List of all [Senators](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/Senators/allsenel.csv)
+
+## Parliament of Victoria
+From [https://www.parliament.vic.gov.au/about/people-in-parliament/members](https://www.parliament.vic.gov.au/about/people-in-parliament/members):
+
+- List of [all members](https://www.parliament.vic.gov.au/images/members/members.csv)
+- List of [Legislative Assembly members](https://www.parliament.vic.gov.au/images/members/assemblymembers.csv)
+- List of [Legislative Council members](https://www.parliament.vic.gov.au/images/members/councilmembers.csv)
