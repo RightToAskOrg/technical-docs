@@ -15,7 +15,16 @@ From [https://www.parliament.nsw.gov.au/members/downloadables/Pages/downloadable
 - List of [all members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=Both&format=Excel)
 - List of [Legislative Assembly members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=LA&format=Excel)
 - List of [Legislative Council members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=LC&format=Excel)
-- 
+
+## Parliament of Tasmania
+
+Seems to be only available as html at [https://www.parliament.tas.gov.au/tpl/datasheets/MP_State_Federal.htm](https://www.parliament.tas.gov.au/tpl/datasheets/MP_State_Federal.htm)
+
+With contact details in pdfs:
+
+- List of all [House of Assembly Members](https://www.parliament.tas.gov.au/ha/pdf/halists.pdf)
+- List of all [Legislative Council Members](https://www.parliament.tas.gov.au/lc/pdf/LCLists.pdf)
+ 
 ## Parliament of Victoria
 From [https://www.parliament.vic.gov.au/about/people-in-parliament/members](https://www.parliament.vic.gov.au/about/people-in-parliament/members):
 
