@@ -1,12 +1,17 @@
 # Data sources
 
-The following are used as sources of information on data about the names of seats and members
+## Public authorities
+From [RightToKnow.org.au](https://www.righttoknow.org.au/body/list/all)
+
+- [All Australian public Authorities](https://www.righttoknow.org.au/body/all-authorities.csv)
 
 ## Parliament of Australia
 From [https://www.aph.gov.au/Senators_and_Members/Guidelines_for_Contacting_Senators_and_Members/Address_labels_and_CSV_files](https://www.aph.gov.au/Senators_and_Members/Guidelines_for_Contacting_Senators_and_Members/Address_labels_and_CSV_files):
 
 - List of all [Members of the House of Representatives](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/FamilynameRepsCSV.csv)
 - List of all [Senators](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/Senators/allsenel.csv)
+
+See also various schedules, such as pdfs from [Senate Estimates](https://www.aph.gov.au/Parliamentary_Business/Senate_estimates/Next_hearings).
 
 ## Assembly of the ACT
 
