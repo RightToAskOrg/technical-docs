@@ -16,6 +16,10 @@ From [https://www.parliament.nsw.gov.au/members/downloadables/Pages/downloadable
 - List of [Legislative Assembly members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=LA&format=Excel)
 - List of [Legislative Council members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=LC&format=Excel)
 
+## Parliament of South Australia
+
+HTML files available from [https://www.parliament.sa.gov.au/en/Members/Labels](https://www.parliament.sa.gov.au/en/Members/Labels)
+
 ## Parliament of Tasmania
 
 From the [House of Assembly](https://www.parliament.tas.gov.au/HA/MainHA.html) and [Legislative Council](https://www.parliament.tas.gov.au/LC/MainLC.html) websites:
