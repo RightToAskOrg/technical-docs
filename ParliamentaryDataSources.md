@@ -20,6 +20,12 @@ From [https://www.parliament.nsw.gov.au/members/downloadables/Pages/downloadable
 - List of [Legislative Assembly members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=LA&format=Excel)
 - List of [Legislative Council members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=LC&format=Excel)
 
+## Legislative Assembly of the Northern Territory
+
+Seems to be only available by selecting [individual members](https://parliament.nt.gov.au/members/by-name) or in pdf:
+
+- List of all [Members of the Legislative Assembly](https://parliament.nt.gov.au/__data/assets/pdf_file/0004/932971/MASTER-List-of-Members-Fourteenth-Assembly-as-at-September-2021.pdf)
+
 ## Queensland Parliament
 
 From [https://www.parliament.qld.gov.au/Members/Current-Members/Full-Mailing-Lists](https://www.parliament.qld.gov.au/Members/Current-Members/Full-Mailing-Lists)
