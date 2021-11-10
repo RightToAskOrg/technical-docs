@@ -8,6 +8,10 @@ From [https://www.aph.gov.au/Senators_and_Members/Guidelines_for_Contacting_Sena
 - List of all [Members of the House of Representatives](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/FamilynameRepsCSV.csv)
 - List of all [Senators](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/Senators/allsenel.csv)
 
+## Assembly of the ACT
+
+- List of all [members of the Assembly](https://www.parliament.act.gov.au/__data/assets/excel_doc/0007/874231/Members-mail-merge-list-2021-0329.xlsx)
+
 ## Parliament of New South Wales
 
 From [https://www.parliament.nsw.gov.au/members/downloadables/Pages/downloadable-lists.aspx](https://www.parliament.nsw.gov.au/members/downloadables/Pages/downloadable-lists.aspx):
