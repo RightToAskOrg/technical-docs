@@ -20,6 +20,12 @@ From [https://www.parliament.nsw.gov.au/members/downloadables/Pages/downloadable
 - List of [Legislative Assembly members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=LA&format=Excel)
 - List of [Legislative Council members](https://www.parliament.nsw.gov.au/_layouts/15/NSWParliament/memberlistservice.aspx?members=LC&format=Excel)
 
+## Queensland Parliament
+
+From [https://www.parliament.qld.gov.au/Members/Current-Members/Full-Mailing-Lists](https://www.parliament.qld.gov.au/Members/Current-Members/Full-Mailing-Lists)
+
+- List of all [members of the Assembly](https://documents.parliament.qld.gov.au/Members/mailingLists/MEMMERGEEXCEL.xls)
+
 ## Parliament of South Australia
 
 In html:
