@@ -8,8 +8,8 @@ From [RightToKnow.org.au](https://www.righttoknow.org.au/body/list/all)
 ## Parliament of Australia
 From [https://www.aph.gov.au/Senators_and_Members/Guidelines_for_Contacting_Senators_and_Members/Address_labels_and_CSV_files](https://www.aph.gov.au/Senators_and_Members/Guidelines_for_Contacting_Senators_and_Members/Address_labels_and_CSV_files):
 
-- List of all [Members of the House of Representatives](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/FamilynameRepsCSV.csv)
-- List of all [Senators](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/Senators/allsenel.csv)
+- List of all [Members of the House of Representatives](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/FamilynameRepsCSV.csv) plus [pdf with email addresses](https://www.aph.gov.au/-/media/03_Senators_and_Members/32_Members/Lists/Members_List_2021.pdf).
+- List of all [Senators](https://www.aph.gov.au/-/media/03_Senators_and_Members/Address_Labels_and_CSV_files/Senators/allsenel.csv) plus [pdf with email addresses](https://www.aph.gov.au/-/media/03_Senators_and_Members/31_Senators/contacts/los.pdf).
 
 See also various schedules, such as pdfs from [Senate Estimates](https://www.aph.gov.au/Parliamentary_Business/Senate_estimates/Next_hearings).
 
