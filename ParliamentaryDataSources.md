@@ -18,7 +18,14 @@ From [https://www.parliament.nsw.gov.au/members/downloadables/Pages/downloadable
 
 ## Parliament of South Australia
 
+In html:
+
+- List of [All members of the House of Assembly](https://www.parliament.sa.gov.au/en/House-of-Assembly/Members)
+- List of [All members of the Legislative Council](https://www.parliament.sa.gov.au/en/Legislative-Council/Members)
+
 HTML files available from [https://www.parliament.sa.gov.au/en/Members/Labels](https://www.parliament.sa.gov.au/en/Members/Labels)
+
+
 
 ## Parliament of Tasmania
 
