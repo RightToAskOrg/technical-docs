@@ -50,3 +50,10 @@ From [https://www.parliament.vic.gov.au/about/people-in-parliament/members](http
 - List of [all members](https://www.parliament.vic.gov.au/images/members/members.csv)
 - List of [Legislative Assembly members](https://www.parliament.vic.gov.au/images/members/assemblymembers.csv)
 - List of [Legislative Council members](https://www.parliament.vic.gov.au/images/members/councilmembers.csv)
+
+## Parliament of Western Austraila
+
+Seems to be only html and pdf.
+
+- List of [Members of the Legislative Assembly](https://www.parliament.wa.gov.au/parliament/memblist.nsf/WebCurrentMembLA?OpenView)
+- List of [Members of the Legislative Council](https://www.parliament.wa.gov.au/parliament/memblist.nsf/WebCurrentMembLC?OpenView)
