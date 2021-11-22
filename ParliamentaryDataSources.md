@@ -15,7 +15,8 @@ See also various schedules, such as pdfs from [Senate Estimates](https://www.aph
 
 ## Assembly of the ACT
 
-- List of all [members of the Assembly](https://www.parliament.act.gov.au/__data/assets/excel_doc/0007/874231/Members-mail-merge-list-2021-0329.xlsx)
+- List of all [members of the Assembly](https://www.parliament.act.gov.au/__data/assets/excel_doc/0007/874231/Members-mail-merge-list-2021-0329.xlsx) misses the speaker's electorate.
+- Better to parse [HTML](https://www.parliament.act.gov.au/members/members-of-the-assembly)
 
 ## Parliament of New South Wales
 
@@ -41,11 +42,8 @@ From [https://www.parliament.qld.gov.au/Members/Current-Members/Full-Mailing-Lis
 
 In html:
 
-- List of [All members of the House of Assembly](https://www.parliament.sa.gov.au/en/House-of-Assembly/Members)
-- List of [All members of the Legislative Council](https://www.parliament.sa.gov.au/en/Legislative-Council/Members)
-
-HTML files available from [https://www.parliament.sa.gov.au/en/Members/Labels](https://www.parliament.sa.gov.au/en/Members/Labels)
-
+- List of [All members of the House of Assembly](https://www.parliament.sa.gov.au/en/House-of-Assembly/Members) contains an iframe whose content is dynamically generated from [JSON](https://contact-details-api.parliament.sa.gov.au/api/HAMembersDetails)
+- List of [All members of the Legislative Council](https://www.parliament.sa.gov.au/en/Legislative-Council/Members) contains an iframe whose content is dynamically generated from [JSON](https://contact-details-api.parliament.sa.gov.au/api/LCMembersDetails)
 
 
 ## Parliament of Tasmania
