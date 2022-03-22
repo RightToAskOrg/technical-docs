@@ -39,55 +39,55 @@ We assume data structures are transferred as JSON serialisations, and use || to 
 
 Defining fields:
 
-- Question_Text: string
+- question_text: string
     * Validity: character length
     * Permission: must be from the question-writer
     * compulsory
-- Question_Writer: Entity
+- question_writer: Entity
     * Validity: must be a system user.
     * Permission: n/a 
     * compulsory
-- Upload_Timestamp: date
+- upload_timestamp: date
 
 Should have low granularity, e.g. day without minutes, because we don't want the same question repeated every second.
 
 
 Non-defining fields:
 
-- Background: string
+- background: string
     * Validity: character length
     * Permission: must be from the question-writer
-- MP_Who_Should_Ask_The_Questions: List(Entity)
+- mp_who_should_ask_the_questions: List(Entity)
     * Validity: must be MPs.  
     * Permission: n/a
-- Entity_Who_Should_Answer_The_Question: List(Entity)
+- entity_who_should_answer_the_question: List(Entity)
     * Validity: must be MPs, depts/portfolios, or public authorities
     * Permission: n/a
-- Answer: List(string, Question_Answerer: Person, Question_Answerer_MP: MP)
+- answer: List(string, Question_Answerer: Person, Question_Answerer_MP: MP)
     * Validity: character length; Question_Answerer must match the sig.
     * Permission: Question_Answerer must have a badge that they are endorsed by the Question_Answerer_MP
-- Answer_accepted: bool (default false)
+- answer_accepted: bool (default false)
     * Validity: n/a
     * Permission: must be from the question-writer
-- Hansard link: List(url)
+- hansard_link: List(url)
     * Validity: domain must be aph.gov.au, parliament.vic.gov.au, etc. (preloaded permit-list - note that url sanitation is nontrivial).
     * Permissions: n/a
-- Is_followup_to : Question-Id 
+- is_followup_to : Question-Id 
     * Validity: must be a pre-existing Question-Id
     * Permissions: TODO: think about whether only the question-writer can write a followup.
-- Keywords: List(String)
+- keywords: List(String)
     * Validity: short list of short words
     * Permission: n/a
-- Category: List(Topics)
+- category: List(Topics)
     * Validity: short list of pre-loaded topics
     * Permission: n/a
-- Expiry_Date: date
+- expiry_date: date
     * Validity: must be later than Upload_Timestamp (and within ?? a year)
     * Permission: must from the question-writer
 
 Bookkeeping fields:
 
-- Question-Id = H(Question_Text, Question_Writer, Upload_Timestamp)
+- question-id = H(Question_Text, Question_Writer, Upload_Timestamp)
 - Last_Update: BB_Index
 
 **Question:
