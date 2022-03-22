@@ -63,9 +63,9 @@ Non-defining fields:
 - Entity_Who_Should_Answer_The_Question: List(Entity)
     * Validity: must be MPs, depts/portfolios, or public authorities
     * Permission: n/a
-- Answer: List(string, answerer)
-    * Validity: character length; answerer must match the sig.
-    * Permission: must be from an MP 
+- Answer: List(string, Question_Answerer: Person, Question_Answerer_MP: MP)
+    * Validity: character length; Question_Answerer must match the sig.
+    * Permission: Question_Answerer must have a badge that they are endorsed by the Question_Answerer_MP
 - Answer_accepted: bool (default false)
     * Validity: n/a
     * Permission: must be from the question-writer
