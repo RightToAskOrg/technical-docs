@@ -1,11 +1,11 @@
     
     
     NewQuestionServerReceive - class object used to get question data back from the server
-        string author         // question writer
-        string question_text  // the actual question text or description
-        int timestamp         // Receives a Date back from the server which could not be converted to a DateTime easily, 
-                                 so I have it as an int for now, but we aren't currently using it.
-        
+    
+        string author                                     // question writer
+        string question_text                              // the actual question text or description
+        int timestamp                                     // Receives a Date back from the server which could not be converted to a DateTime easily, 
+                                                             so I have it as an int for now, but we aren't currently using it.        
         string who_should_ask_the_question_permissions    // something that the server sends back, I don't know what we should do with it.
         string who_should_answer_the_question_permissions // same as above
         string question_id                                // the identification string of the question. We use it to grab individual question data 
@@ -14,12 +14,15 @@
         int last_modified                                 // another Date that we get back from the server that looks purely numerical based, 
                                                              so it might not make an easy conversion to DateTime. Still not being used though.
                                                              
+                                                             
     NewQuestionServerSend - class object used to package question data to send to the server
+    
         string question_text  // the actual question text or description
         string background     // additional text field to provide a backgorund on the question text or description
         string is_followup_to // questionID to link to another question
         string question_id    // the identification string of this particular question
         string version        // a string that we get from the server that is based on the current commit or git version of the repository.      
+
 
     Question - the class object we use for displaying questions in the application and manipulating data within the app
     
