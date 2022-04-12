@@ -19,7 +19,7 @@ The server's internal data structures correspond closely to the data structures 
 
 Each data structure therefore has specific immutable fields which define it - for example, an entity is defined by its name. The hash of the defining data is returned when the data is first posted on the Bulletin Board, then used as an index for subsequent updates.
 
-**For server API data structures, see the [rust docs for the server repo](https://github.com/RightToAskOrg/right_to_ask_server/).**
+**This repo contains intended descriptions for things not yet built. For existing server API data structures, including users, questions, and bulletin board data structures, see the [rust docs for the server repo](https://github.com/RightToAskOrg/right_to_ask_server/).**
 
 ### Ballot
 
@@ -73,61 +73,4 @@ A tally is:
 
 Again, this is hashed, stored in the database, and posted on the BB.
 
-### Person
 
-A person is a user of the system, who may also have some role(s), e.g. being an MP or an MP's spokesperson.
-
-Defining Fields:
-
-- UID : string
-    * Validity: character length (30)
-    * Permission: must be unique
-    * compulsory
-    * never changes
-
-Non-defining fields
-
-- Display Name : string
-    * Validity: character length (50)
-    * optional
-    * may change 
-- Verified_Representative: List (MP or domain)
-    * optional
-- Public key : string
-    * Validity: TBD
-    * Permission: n/a
-    * optional
-- State : enum
-    * optional
-- Electorates Represented In : List (chamber, string) 
-    * optional
-- Email : string
-    * optional
-    
-Bookkeeping fields:
-
-- UID
-
-Note: Entity_Type is not part of the defining fields, because a person could become, or cease to be, an MP.
-
-Use a highly visible badge in the UI to mark that a person has been verified as being able to answer MP email.
-
-### MP
-
-This includes all MPs regardless of whether they have created an account on the system.
-
-Defining fields: 
-
-- Chamber: enum
-- Electorate : string
-- MPName : string
-
-
-### Public Authority
-### Role
-
-(TODO: define the data structure for state (state, state electorate, federal electorate)
-
-(VT: Consider what MPs who haven't registered yet are - are they non-user entities?  In which case, what exactly should happen when they register?)
-
-(VT: Consider what should happen when someone wants to register several different keys from different devices, or different people who represent the same MP.)
