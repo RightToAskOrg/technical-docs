@@ -1,0 +1,108 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{diagbox}
+\usepackage{todonotes}
+
+\newcommand{\VTNote}[1]{\todo{VT: #1}}
+\newcommand{\prob}{\mathit{Pr}}
+\newcommand{\U}{\mathcal{U}}
+
+\begin{document}
+	
+	\title{Privacy of aggregated up- and down- votes for Right To Ask}
+
+\section{Introduction}
+This analysis is complementary to the analysis of \cite{kiayias2022privacy}, in that it looks at the privacy implications of revealing aggregated data, while that work examines sharing the trust assumptions around various participants so that the decryption capability is not held by a fixed set of parties.
+
+We consider the privacy model appropriate for aggregated bits. In our setting, these bits are up-votes (1) and down-votes (0) in Right To Ask, which are homomorphically aggregated to produce totals without revealing any other information about individual votes.
+
+Totals can of course reveal information, with certainty if they are unanimous and in a probabilistic way even if they are not. This report considers a series of increasingly complex models of vote privacy in this setting.
+
+Notation: assume fixed batches of size $B$. A ballot can only ever appear in a single batch, and once counted will not be counted again as part of any future batch. 
+
+Let $V = \{ v_1, v_2,\ldots,v_B\}$ be the set of votes.
+
+\section{Unanimous tallies}
+
+\subsection{A very simple random model}
+First assume that each vote is chosen randomly and independently, with a probability $p$ of being 1 (and $1-p$ of being 0). This is obviously an oversimplified model to try out some ideas and get some best-case results.
+Let $\U$ be the event that all votes are unanimous, either all ones or all zeros.
+
+$$
+\begin{array}{rcl}
+	\prob_{p,B}(\U) & = & p^{B} + (1-p)^B \\
+\end{array}
+$$
+
+This is minimised at $1/2^{B-1}$ when $p=1/2$, but rises quickly for uneven bit distributions. Some example values for $B=20$ are shown below.
+
+$$
+\begin{array}{cccc}
+p & 0.5 & 0.7 & 0.9 \\
+\prob_{p,20}(\U) & 2 \times 10^{-6} & 8 \times 10^{-4} & 0.12
+\end{array}
+$$
+
+If an attacker controls $\alpha$ fraction of participants, and hence knows their votes, then in an average batch in which $\alpha B$ votes are exposed, the probability of the rest being unanimous is
+
+$$
+\begin{array}{rcl}
+\prob_{p,(1-\alpha)B}(\U) & = & p^{(1-\alpha)B} + (1-p)^(1-\alpha)B \\
+\end{array}
+$$
+
+Some example values of $\prob_{p,\alpha \times 20}(\U)$ are shown below.
+
+
+\begin{tabular}{lccc}
+\backslashbox{$\alpha$}{$p$}  & 0.5 & 0.7 & 0.9 \\
+%\alpha & & & & \\
+0 & $2 \times 10^{-6}$ &$ 8 \times 10^{-4}$ & 0.12 \\
+0.05 & $2 \times 10^{-6}$ & $1 \times 10^{-3}$& 0.13 \\
+0.1  & $8 \times 10^{-6}$ & $2 \times 10^{-3}$ & 0.15 \\
+0.2  & $3 \times 10^{-5}$ & $ 3 \times 10^{-3}$ & 0.18  \\
+\end{tabular}
+
+The probability of being in at least one unanimous set after participating in $c$ batches can be easily computed.
+
+\subsection{Adding randomness}
+Suppose we add $r$ random bits (independently and uniformly chosen) into each batch before aggregation, then subtract $r/2$ from the resulting tallies. This does not affect the average tally, but lowers the probability of unanimity.
+
+$$
+\prob_{p,B}(\U | \text{$r$ random extra bits}) = \prob_{p,B+r}(\U)
+$$
+
+In the next section we will discuss how to add encrypted randomness in a verifiably fair way.
+
+\section{Differentially private aggregates}
+Since we are dealing with a simple counting query the sensitivity will always be 1. As such, we know what the laplace noise distribution will be in advance and don't need to perform a sensitivity analysis on the actual data.
+
+\VTNote{Suggest writing this section to say more about what we're adding, which I agree is stock-standard DP. Then, in the next section, discuss how this can be added in a verifiably valid fashion. Occurs to me that the DP (or other) distribution may be completely independent of the actual distribution being added.}
+
+\subsection{Verifiable Differential Privacy}
+
+\paragraph{Pre-Generation of Noise}
+
+One party in advanced generates a large amount of noise from the laplace distribution and commits, encrypts, and publishes the encryptions/commitments on the bulletin board. This could be a batch in the thousands, it depends how many counts are expected, but it can always be repeated to generate more noise.
+
+Once committed to, a random percentage of the generated noise is revealed as an audit. That percentage will depend on what probability of detection of cheating wants to be achieved, however, it should a reasonably large number, maybe 50\%. The reason a large number is needed is that once all the data has been opened it should form a distribution closely approximate to the intended laplace distribution. If it does not then the whole batch is rejected. What counts as close will need some further thought and experimentation, if the number of values audited is large enough it should be very close to the intended laplace distribution.
+
+The remaining unopened values should be mixed to prevent the generating party knowing the mapping between the final random values and the ones it generated. The mixed encrypted random values should be published on the bulletin board.
+
+\paragraph{Adding Noise During the Count}
+
+The votes are summed as normal and then an encrypted noise value is selected at random from the bulletin board and also added to the sum. The result is then decrypted and the answer should be a differentially private count of those votes.
+
+Possible useful background on Verifiable DP: \cite{narayan2015verifiable,kato2021preventing}.
+
+
+\bibliographystyle{alpha}
+\bibliography{bib}
+
+\end{document}
