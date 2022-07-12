@@ -24,7 +24,24 @@ We consider the privacy model appropriate for aggregated bits. In our setting, t
 
 Totals can of course reveal information, with certainty if they are unanimous and in a probabilistic way even if they are not. This report considers a series of increasingly complex models of vote privacy in this setting.
 
-Notation: assume fixed batches of size $B$. A ballot can only ever appear in a single batch, and once counted will not be counted again as part of any future batch. 
+\subsection{What are we trying to achieve? Differences between a standard election privacy model and the privacy model of Right To Ask}
+
+The privacy model for traditional first-past-the-post elections is simple: an election authority traditionally publishes exact aggregates, with coercion-resistance as a secondary goal. In principle, it might be possible to prove who won without revealing exact tallies; in practice as far as we know this is never done. In practice sometimes the level of aggregation is varied for privacy reasons (for example, sometimes aggregate tallies may not be revealed at the level of individual polling places or by method of voting, though often they are). The requirement for exact answers generally precludes differentially private solutions.
+
+This means that there is some coercion risk, particularly to distinguished groups and particularly in the case of anonymity or near-anonymity. 
+
+Right To Ask has a significantly different privacy model: there are many questions to be voted on, and people's contributions are probably highly correlated---they will tend to up-vote similar questions, and down-vote similar questions, if they see them. However, the system is less dependent on exact answers, and the consequences of individual privacy breach may be less serious, than in government elections.
+
+In summary, the Right To Ask privacy model has the following characteristics. 
+\begin{itemize}
+	\item Each up- or down-vote is a public ciphertext. Thus the system reveals who responded to which questions.
+	\item Aggregated tallies are revealed.
+	\item Slight perturbations of aggregated tallies are acceptable.
+	\item People respond to multiple questions, in a way that may be highly correlated.
+\end{itemize}
+
+
+\paragraph{Notation} Assume fixed batches of size $B$. A ballot can only ever appear in a single batch, and once counted will not be counted again as part of any future batch. 
 
 Let $V = \{ v_1, v_2,\ldots,v_B\}$ be the set of votes.
 
