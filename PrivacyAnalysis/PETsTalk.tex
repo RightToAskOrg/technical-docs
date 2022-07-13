@@ -35,6 +35,7 @@
 \usepackage{xspace}
 \newcommand{\themename}{\textbf{\textsc{bluetemp}\xspace}}%metropolis}}\xspace}
 
+\include{macros}
 \title[]{Privacy in the Right To Ask project}
 
 \author[Name]{Vanessa Teague\inst{$\dagger$} and Chris Culnane}
@@ -45,7 +46,9 @@
 
 
 %\subtitle{Influence Without Surveillance}
-\institute[uni]{\inst{$\dagger$} vanessa@thinkingcybersecurity.com and the ANU \\ \\ \url{https://github.com/RightToAskOrg}\\  \\ With thanks to these contributors: Andrew Conway, Rosey Conway, Charmaine Chew, Ishan Goyal, Matt Lefurge, Chuanyuan Liu, Lillian McCann, Tim McCann, Eleanor McMurtry, Hanna Navissi, Pedro Rosas, Miguel Wood}
+\institute[uni]{\inst{$\dagger$} vanessa@thinkingcybersecurity.com and the ANU \\ \\ \url{https://github.com/RightToAskOrg}\\  \\ With thanks to these contributors: Andrew Conway, Rosey Conway, Charmaine Chew, Ishan Goyal, Matt Lefurge, Chuanyuan Liu, Lillian McCann, Tim McCann, Eleanor McMurtry, Hanna Navissi, Pedro Rosas, Miguel Wood\\
+
+This project has received a research grant from Microsoft}
 \date{\today} %Here you can change the date
 \titlegraphic{\vspace{-0.8cm}\hfill\includegraphics[scale=0.5]{GreenAndGoldRightToAsk.png}} %You can modify the location of the logo by changing the command \vspace{}. 
 
@@ -127,9 +130,9 @@
 		
 	\end{frame}
 	
-	\begin{frame}[fragile]{The high-level view: votes on one question}
+		\begin{frame}[fragile]{The standard story: ordinary elections}
 	\includegraphics[scale=0.17]{e2e-vVoting-homomorphicAddition.png}
-	\end{frame}
+\end{frame}
 %	\begin{frame}[standout]{This is other type of slide}%
 %		There is some text here.
 %		And an equation with number:
@@ -137,7 +140,7 @@
 %		E^{2} = m^{2} + p^{2}
 %		\end{equation}
 %	\end{frame}
-	
+
 %	\include{Othersection}
 
 \begin{frame}
@@ -177,26 +180,9 @@
 %	\includegraphics[scale=0.17]{../pics/e2e-vVoting-homomorphicAddition.png}
 	\end{frame}
 
+		\section{Everything goes on The Bulletin Board}
 	
-	\section{A privacy model}
-	\begin{frame}[standout]{Privacy model} 
-		%You can also not write fragile or standout and you can see how it looks
-		
-		\begin{itemize}
-			\item Your \emph{writing} is public
-				\begin{itemize} 
-					\item and named
-				\end{itemize}
-			\item Your \emph{votes} are private 
-				\begin{itemize}
-					\item and only decrypted in the aggregate
-				\end{itemize}
-		\end{itemize}
-	\end{frame}
 	
-	\section{The Bulletin Board}
-	
-	       
 	\begin{frame}[fragile]{Bulletin Board Library}
 		A general purpose library allowing an entity to publish
 		things continuously on a public bulletin board, enforcing historical transparency.
@@ -230,7 +216,103 @@
 		\includegraphics[scale=0.17]{InclusionProof.png}
 	\end{frame}
 	
+	\section{A privacy model}
+	\begin{frame}[standout]{Privacy model} 
+		%You can also not write fragile or standout and you can see how it looks
+		
+		\begin{itemize}
+			\item Your \emph{writing} is public
+				\begin{itemize} 
+					\item and named
+				\end{itemize}
+			\item Your \emph{votes} are private 
+				\begin{itemize}
+					\item and only decrypted in the aggregate
+					\item key decryption key is 2-out-of-3 secret shared and never explicitly recombined
+				\end{itemize}
+		\end{itemize}
+	\end{frame}
 	
+	\begin{frame}
+	\frametitle{Is that good enough?}	
+		
+	In this talk we'll look at the privacy implications of repeated exact aggregates in batches.
+	
+	In different work (Litos, Kiayias, T : IACR eprint 760) we examined how to share
+	the decryptor role among participants.
+	\end{frame}	
+	
+
+	
+	\begin{frame}
+	\frametitle{Right To Ask is different from ordinary elections}	
+	
+\begin{itemize}
+
+	\item Good...
+	\begin{itemize}
+	\item It's less important than real elections
+	\item Some perturbation might be acceptable
+	\end{itemize}
+	\item Bad...
+\begin{itemize}
+	\item Small sizes make unanimity (or large biases) more likely
+	\item The system reveals who voted on what (just not whether it was +1 or 0)
+	\item Ongoing decryption in batches makes privacy analysis in advance impossible
+\end{itemize}
+\end{itemize}
+\end{frame}	
+
+\begin{frame}
+	\frametitle{Plan A: Just do it}
+	\begin{itemize}
+		\item 	Tally in batches of size $B$
+		\item Let  $p$ be the fraction of votes that are up-votes
+		\item In the best case, up- and down-votes are iid 
+		\item Then $$\prob(\text{unanimity}) = p^B + (1-p)^B$$
+		\end{itemize}
+
+	
+If you participate a lot, some of your contributions will be in a unanimous batch, but most won't.
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Plan B: Add some random padding bits}
+	\begin{itemize}
+		\item 	Group in batches of size $B$
+\item Add $r$ encrypted random bits
+\item Tally the batch of $B+r$
+	\item Then $$\prob(\text{unanimity}) = (p^B + (1-p)^B)/2^r$$
+	\item This is $(\epsilon,\delta)-DP$ with $\delta = 1/2^r$
+	\end{itemize}
+
+
+There will still be some exposed unanimous batches, but this reduces the frequency.
+
+Need to subtract $r/2$ to preserve average relative rankings.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Plan C: Laplace mechanism on each question}
+	\begin{itemize}
+		\item Sensitivity is 1
+		\item DP (with $\delta = 0$)
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Plan D: Considering each person's complete list of contributions}
+	No idea how to deal with this...
+\end{frame}
+			
+
+\begin{frame}
+	\frametitle{Verifiably generating the random padding}
+	Lots of ways to do this in various trust models. Suggestions for efficient protocols welcome.
+\end{frame}
+			
 	\section{Challenges}
 	
 	\begin{frame}{Challenges \& Discussion}
