@@ -100,16 +100,30 @@ This project has received a research grant from Microsoft}
 	\section{A tiny part of a solution}
 
 	\begin{frame}[fragile]{A sketch of a proposal for something that might help}
+	
+	
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			
 	RightToAsk lets people
-	 suggest and vote on questions, which could be:
+	 suggest and up- and down-vote questions, which could be:
 	
 	\begin{itemize}
-		\item directed to an MP\footnote{The term "MP" includes senators and members of state legislative bodies.} to ask for an answer (e.g. from a constituent), or
+		\item directed to an MP.
+		%\footnote{The term "MP" includes senators and members of state legislative bodies.} 
+		to ask for an answer (e.g. from a constituent), or
 		\item suggested for an MP to ask someone else (e.g. in a committee).		
 	\end{itemize}
 
 	
 	RightToAsk shows parliamentarians which questions are popular and relevant to their role.
+	
+	
+		\end{column}
+		\begin{column}{0.4\textwidth}  %%<--- here
+				\includegraphics[width=0.8\textwidth]{Screenshot}
+		\end{column}
+	\end{columns}
 		
 	\end{frame}
 	
@@ -265,40 +279,76 @@ This project has received a research grant from Microsoft}
 
 \begin{frame}
 	\frametitle{Plan A: Just do it}
+	
+	\begin{columns}
+		\begin{column}{0.7\textwidth}
 	\begin{itemize}
-		\item 	Tally in batches of size $B$
+		\item Tally in batches of size $B$
 		\item Let  $p$ be the fraction of votes that are up-votes
 		\item In the best case, up- and down-votes are iid 
 		\item Then $$\prob(\text{unanimity}) = p^B + (1-p)^B$$
-		\end{itemize}
+	\end{itemize}	
+If you participate a lot, some of your contributions will be in a unanimous batch, but most won't.	
+		\end{column}
+		\begin{column}{0.3\textwidth}  %%<--- here
+			\begin{center}
+				\includegraphics[width=0.5\textwidth]{homomorphicAddition_simple}
+			\end{center}
+		\end{column}
+	\end{columns}
+	
 
 	
-If you participate a lot, some of your contributions will be in a unanimous batch, but most won't.
+
 
 \end{frame}
 
 \begin{frame}
 	\frametitle{Plan B: Add some random padding bits}
+		\begin{columns}
+		\begin{column}{0.7\textwidth}
 	\begin{itemize}
 		\item 	Group in batches of size $B$
 \item Add $r$ encrypted random bits
 \item Tally the batch of $B+r$
 	\item Then $$\prob(\text{unanimity}) = (p^B + (1-p)^B)/2^r$$
 	\item This is $(\epsilon,\delta)-DP$ with $\delta = 1/2^r$
+
+
+
+\item There will still be some exposed unanimous batches, but this reduces the frequency.
+
+\item Need to subtract $r/2$ to preserve average relative rankings.
 	\end{itemize}
+		\end{column}
+\begin{column}{0.3\textwidth}  %%<--- here
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{homomorphicAddition_addBits}
+\end{center}
+\end{column}
+\end{columns}
 
-
-There will still be some exposed unanimous batches, but this reduces the frequency.
-
-Need to subtract $r/2$ to preserve average relative rankings.
 \end{frame}
 
 \begin{frame}
 	\frametitle{Plan C: Laplace mechanism on each question}
+		\begin{columns}
+	\begin{column}{0.7\textwidth}
 	\begin{itemize}
-		\item Sensitivity is 1
-		\item DP (with $\delta = 0$)
+		\item Sensitivity $\Delta f = 1$
+		\item Add value from $\Lap(x | 1/\epsilon)$ with pdf $ \frac{\epsilon}{2} \exp (- \epsilon |x|)$
+		\item achieves $(\epsilon,0)$-Differential Privacy 
 	\end{itemize}
+
+		
+	\end{column}
+	\begin{column}{0.3\textwidth}  %%<--- here
+		\begin{center}
+			\includegraphics[width=0.5\textwidth]{homomorphicAddition_Laplace}
+		\end{center}
+	\end{column}
+\end{columns}
+
 \end{frame}
 
 
@@ -337,10 +387,10 @@ Need to subtract $r/2$ to preserve average relative rankings.
 	\begin{itemize}
 		\item See the code and technical docs here
 	\url{https://github.com/RightToAskOrg/}
-	\item Join the discussion on HackMD here
-	\url{https://hackmd.io/@RightToAsk-Docs}
+	%\item Join the discussion on HackMD here
+	%\url{https://hackmd.io/@RightToAsk-Docs}
 	\item email me if you'd like to join the chat channel.
-	\url{vanessa [at] thinkingcybersecurity.com}
+	\url{vanessa [at] democracydevelopers.org.au}
 	\end{itemize}
 \end{frame}
 
