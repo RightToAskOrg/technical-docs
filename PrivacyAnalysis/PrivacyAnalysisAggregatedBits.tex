@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{url}
@@ -10,9 +11,10 @@
 \usepackage{todonotes}
 
 % Shifted into macros.tex
-\newcommand{\VTNote}[1]{\todo{VT: #1}}
-\newcommand{\prob}{\mathit{Pr}}
-\newcommand{\U}{\mathcal{U}}
+%\newcommand{\VTNote}[1]{\todo{VT: #1}}
+%\newcommand{\prob}{\mathit{Pr}}
+%\newcommand{\U}{\mathcal{U}}
+\include{macros}
 
 \begin{document}
 	
@@ -89,7 +91,7 @@ Some example values of $\prob_{p,\alpha \times 20}(\U)$ are shown below.
 
 The probability of being in at least one unanimous set after participating in $c$ batches can be easily computed.
 
-\subsection{Adding randomness}
+\subsection{Simple bit-adding mechanism} \label{sec:simpleAddBits}
 Suppose we add $r$ random bits (independently and uniformly chosen) into each batch before aggregation, then subtract $r/2$ from the resulting tallies. This does not affect the average tally, but lowers the probability of unanimity.
 
 $$
@@ -99,6 +101,78 @@ $$
 In the next section we will discuss how to add encrypted randomness in a verifiably fair way.
 
 \section{Differentially private aggregates}
+
+\subsection{Definition}
+
+From~\cite{dwork2014algorithmic}:
+
+\begin{defn} 
+A randomised algorithm $M$ with domain $\mathbb{N}^|X|$ is \emph{$(\epsilon,\delta)$-Differentially Private} 
+if for all $S \subseteq \text{Range}(M)$ and for all $x,y \in \mathbb{N}^|X|$ such that $|| x-y||_1 \leq 1:$
+
+$$ \prob (M(x) \in S) \leq \exp(\epsilon) \prob(M(y) \in S)+ \delta$$
+\end{defn}
+
+\subsection{Analysis of the simple bit-adding mechanism}
+Consider the simple mechanism from Section~\ref{sec:simpleAddBits}.
+
+\begin{prop}
+The simple bit-adding mechanism is $(r, \log r)$ Differentially-Private.
+\end{prop}
+\begin{proof}
+Let $x$ and $x'$ be adjacent databases with $B$ records (bits). Let $V$ ($0 \leq V \leq V$) be the number of up-votes (1s) in $x$---then $x'$ has $V-1$ or $V+1$.
+
+Let $R$ be the random variable defined by the sum of $r$ bits added.
+
+$M(x)$ outputs an apparent tally including the random padding. Some outputs in the range are not possible.
+
+Case~1a: If $x'$ has $V+1$ 1s and $t \leq V-1$, then 
+$$\prob(M(x) = t) = \prob(M(x')=t) = 0.$$
+
+
+Case~2a: If $x'$ has $V+1$ 1s and $t = V$, then
+$$\prob(M(x) = t) = \prob(R = 0) = 1 / 2^r$$ 
+but
+$$\prob(M(x') = t) = 0.$$ 
+
+Case~3a: If $x'$ has $V+1$ 1s and $V+1 \leq t \leq V+r$, then 
+
+$$\prob(M(x) = t) = \prob(R = t-V) = {r \choose {t-V}} / 2^r$$ 
+
+$$
+\begin{array}{rcl}
+\prob(M(x') = t) & = & \prob(R = t-V-1) \\
+				 & = & {r \choose {t-V-1}} / 2^r \\
+				 & = & \frac{t-V}{r-t+V+1}     \prob(M(x) = t) \\
+				 & \leq & r \prob(M(x) = t)  \text{       (max when $t=V+r$)}
+\end{array}
+$$
+
+Case~4a: If $x'$ has $V+1$ 1s and $t = V+r+1$, then 
+$$\prob(M(x) = t) = 0 $$
+but
+$$\prob(M(x') = t)  \prob(R = r) = 1 / 2^r.$$ 
+
+Case~5a: If $x'$ has $V+1$ 1s and $t \geq V+r+2$, then 
+$$\prob(M(x) = t) = \prob(M(x')=t) = 0.$$
+
+So for Cases~1a--5a we have for all tallies $t$,
+
+$$\prob(M(x') = t) \leq r \prob(M(x) = t) + 1/2^r$$  where the $1/2^r$ term comes from Case~4a.
+
+Case~1b: If $x'$ has $V-1$ 1s and $t \leq V-2$, then 
+$$\prob(M(x) = t) = \prob(M(x')=t) = 0.$$
+
+Case~2b: If $x'$ has $V-1$ 1s and $t=V-1$, then this is similar to Case~2a.
+
+Case~3b: If $x'$ has $V-1$ 1s and $V \leq t \leq V+r-1$, then this is similar to Case~3a
+
+Case~4b: If $x'$ has $V-1$ 1s and $t = V+r$, then this is similar to Case~4a.
+Case~5b: If $x'$ has $V-1$ 1s and $t \geq V+r+1$, then this is similar to Case~5a.
+
+Therefore the mechanism is $(\log r, 1/2^r)$-Differentially Private.
+\end{proof}
+
 Since we are dealing with a simple counting query the sensitivity will always be 1. As such, we know what the laplace noise distribution will be in advance and don't need to perform a sensitivity analysis on the actual data.
 
 \VTNote{Suggest writing this section to say more about what we're adding, which I agree is stock-standard DP. Then, in the next section, discuss how this can be added in a verifiably valid fashion. Occurs to me that the DP (or other) distribution may be completely independent of the actual distribution being added.}

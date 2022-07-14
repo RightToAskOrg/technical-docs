@@ -116,7 +116,7 @@ This project has received a research grant from Microsoft}
 	\end{itemize}
 
 	
-	RightToAsk shows parliamentarians which questions are popular and relevant to their role.
+	RightToAsk shows MPs which questions are popular and relevant to their role.
 	
 	
 		\end{column}
@@ -144,7 +144,7 @@ This project has received a research grant from Microsoft}
 		
 	\end{frame}
 	
-		\begin{frame}[fragile]{The standard story: ordinary elections}
+		\begin{frame}[fragile]{Homomorphic addition for ordinary elections}
 	\includegraphics[scale=0.17]{e2e-vVoting-homomorphicAddition.png}
 \end{frame}
 %	\begin{frame}[standout]{This is other type of slide}%
@@ -242,7 +242,7 @@ This project has received a research grant from Microsoft}
 			\item Your \emph{votes} are private 
 				\begin{itemize}
 					\item and only decrypted in the aggregate
-					\item key decryption key is 2-out-of-3 secret shared and never explicitly recombined
+					\item decryption key is 2-out-of-3 secret shared and never explicitly recombined 
 				\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -271,8 +271,8 @@ This project has received a research grant from Microsoft}
 	\item Bad...
 \begin{itemize}
 	\item Small sizes make unanimity (or large biases) more likely
-	\item The system reveals who voted on what (just not whether it was +1 or 0)
-	\item Ongoing decryption in batches makes privacy analysis in advance impossible
+	\item The system reveals who voted on what (not whether it was +1 or 0)
+	\item Ongoing decryption in batches makes privacy analysis hard
 \end{itemize}
 \end{itemize}
 \end{frame}	
