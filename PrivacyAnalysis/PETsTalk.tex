@@ -46,11 +46,9 @@
 
 
 %\subtitle{Influence Without Surveillance}
-\institute[uni]{\inst{$\dagger$} vanessa@thinkingcybersecurity.com and the ANU \\ \\ \url{https://github.com/RightToAskOrg}\\  \\ With thanks to these contributors: Andrew Conway, Rosey Conway, Charmaine Chew, Ishan Goyal, Matt Lefurge, Chuanyuan Liu, Lillian McCann, Tim McCann, Eleanor McMurtry, Hanna Navissi, Pedro Rosas, Miguel Wood\\
-
-This project has received a research grant from Microsoft}
+\institute[uni]{\inst{$\dagger$} vanessa@thinkingcybersecurity.com and the ANU \\ \\ \url{https://github.com/RightToAskOrg}\\  \\ With thanks to these contributors: Andrew Conway, Rosey Conway, Charmaine Chew, Ishan Goyal, Matt Lefurge, Chuanyuan Liu, Lillian McCann, Tim McCann, Eleanor McMurtry, Hanna Navissi, Pedro Rosas, Miguel Wood}
 \date{\today} %Here you can change the date
-\titlegraphic{\vspace{-0.8cm}\hfill\includegraphics[scale=0.5]{GreenAndGoldRightToAsk.png}} %You can modify the location of the logo by changing the command \vspace{}. 
+\titlegraphic{\vspace{-0.8cm}\hfill\includegraphics[scale=0.4]{GreenAndGoldRightToAsk.png}} %You can modify the location of the logo by changing the command \vspace{}. 
 
 \begin{document}
 	{
@@ -66,40 +64,9 @@ This project has received a research grant from Microsoft}
 		\tableofcontents[hideallsubsections] %You can comment this line if you want to show the subsections in the table of contents
 	\end{frame}
 	
-	\section{Democracy. We have a problem...}
-		
-	
-	\begin{frame}{We have a problem...}
-		
-		
-		
-%		\vspace{0.5cm}
-%		\frame{
-%			\includegraphics[width=\linewidth]{../pics/ManualCount}
-%		}
-%		\vspace{0.5cm}
-		
-		
-		
-		
-%		\underline{\textsc{Some text:}}
-%		\begin{small}
-%			This is some small Text. 
-%		\end{small}
-		
-	
-	\end{frame}
+	\section{Right To Ask}
 
-	\begin{frame}{We have a problem...}
-
-
-	For today, let's discuss the meta-problem: \emph{How can citizens have more input in to Parliament?}
-
-	\end{frame}
-
-	\section{A tiny part of a solution}
-
-	\begin{frame}[fragile]{A sketch of a proposal for something that might help}
+	\begin{frame}[fragile]{How it will work}
 	
 	
 	\begin{columns}
@@ -109,7 +76,7 @@ This project has received a research grant from Microsoft}
 	 suggest and up- and down-vote questions, which could be:
 	
 	\begin{itemize}
-		\item directed to an MP.
+		\item directed to an MP
 		%\footnote{The term "MP" includes senators and members of state legislative bodies.} 
 		to ask for an answer (e.g. from a constituent), or
 		\item suggested for an MP to ask someone else (e.g. in a committee).		
@@ -130,7 +97,7 @@ This project has received a research grant from Microsoft}
 	\section{Cryptographic Tools}
 	
 	\begin{frame}[fragile]{We have some tools} %You can change fragile by standout
-		Microsoft's ElectionGuard crypto library includes: %\\You can change the size of the footnote text like  Text\footnote{\small{ here.}} Text\footnote{\large{And here.}} Text\footnote{\tiny{And here.}}
+		Microsoft's ElectionGuard crypto library includes:\footnote{This project has received a research grant from Microsoft} %\\You can change the size of the footnote text like  Text\footnote{\small{ here.}} Text\footnote{\large{And here.}} Text\footnote{\tiny{And here.}}
 		\begin{itemize} %The symbol of the items can be changed by which ever you want, this is just an example.
 			\item[$\diamond$] additive-homomorphic encryption (based on El Gamal)
 			\item[$\diamond$] threshold key generation
@@ -363,25 +330,8 @@ If you participate a lot, some of your contributions will be in a unanimous batc
 	Lots of ways to do this in various trust models. Suggestions for efficient protocols welcome.
 \end{frame}
 			
-	\section{Challenges}
+	\section{Discussion \& future work}
 	
-	\begin{frame}{Challenges \& Discussion}
-		\begin{itemize}
-			\item Authenticating citizens (residents)
-			\item Fast decryption vs. large batches for privacy
-			\item What's a ``good'' question?
-				\begin{itemize}
-					\item Total upvotes?
-					\item Upvotes $-$ downvotes?
-					\item Fraction of views that upvoted?
-					\item Most recent upvotes?
-					\item Posed by someone you follow?
-				\end{itemize}
-			
-			Any of these introduce some biases
-		\end{itemize}
-	\end{frame}
-
 \begin{frame}{Getting involved}
 	
 	\begin{itemize}

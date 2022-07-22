@@ -187,6 +187,8 @@ Once committed to, a random percentage of the generated noise is revealed as an 
 
 The remaining unopened values should be mixed to prevent the generating party knowing the mapping between the final random values and the ones it generated. The mixed encrypted random values should be published on the bulletin board.
 
+Note that this way the party who generated the values knows correlations between them, and that this could mean that tallies may leak information to that party even if they do not to the general public. (As an example, if it happens that all the unopened values are zero then the fact they have been mixed is irrelevant.)
+
 \paragraph{Adding Noise During the Count}
 
 The votes are summed as normal and then an encrypted noise value is selected at random from the bulletin board and also added to the sum. The result is then decrypted and the answer should be a differentially private count of those votes.
