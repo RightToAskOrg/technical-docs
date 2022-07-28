@@ -177,17 +177,17 @@ Since we are dealing with a simple counting query the sensitivity will always be
 
 \VTNote{Suggest writing this section to say more about what we're adding, which I agree is stock-standard DP. Then, in the next section, discuss how this can be added in a verifiably valid fashion. Occurs to me that the DP (or other) distribution may be completely independent of the actual distribution being added.}
 
-\subsection{Verifiable Differential Privacy}
+\section{Verifiable Privacy Generation}
 
 \paragraph{Pre-Generation of Noise}
 
-One party in advanced generates a large amount of noise from the laplace distribution and commits, encrypts, and publishes the encryptions/commitments on the bulletin board. This could be a batch in the thousands, it depends how many counts are expected, but it can always be repeated to generate more noise.
+One party in advanced generates a large amount of noise (for example, from the laplace distribution in the case of DP, or simply separate bits in the case of more simple padding) and commits, encrypts, and publishes the encryptions/commitments on the bulletin board. This could be a batch in the thousands, it depends how many counts are expected, but it can always be repeated to generate more noise.
 
 Once committed to, a random percentage of the generated noise is revealed as an audit. That percentage will depend on what probability of detection of cheating wants to be achieved, however, it should a reasonably large number, maybe 50\%. The reason a large number is needed is that once all the data has been opened it should form a distribution closely approximate to the intended laplace distribution. If it does not then the whole batch is rejected. What counts as close will need some further thought and experimentation, if the number of values audited is large enough it should be very close to the intended laplace distribution.
 
 The remaining unopened values should be mixed to prevent the generating party knowing the mapping between the final random values and the ones it generated. The mixed encrypted random values should be published on the bulletin board.
 
-Note that this way the party who generated the values knows correlations between them, and that this could mean that tallies may leak information to that party even if they do not to the general public. (As an example, if it happens that all the unopened values are zero then the fact they have been mixed is irrelevant.)
+Note that this way the party who generated the values knows correlations between them, and that this could mean that tallies may leak information to that party even if they do not to the general public. (As an extreme example, if it happens that all the unopened values are zero then the fact they have been mixed is irrelevant.)
 
 \paragraph{Adding Noise During the Count}
 
@@ -195,7 +195,156 @@ The votes are summed as normal and then an encrypted noise value is selected at 
 
 Possible useful background on Verifiable DP: \cite{narayan2015verifiable,kato2021preventing}.
 
+\paragraph{Perturbing existing votes probabilistically}
 
+Suppose we can think of a way in which an existing El Gamal ciphertext can be perturbed (i.e. switched from 1 to 0 or vice versa) with some probability as part of a distributed process.
+
+TODO think of a protocol.
+
+\section{Changing the voting patterns}
+An alternative is to leverage three or more different voting options. This doesn't remove the risk of unanimity, and doesn't solve the problem of revealing who voted on what questions, but it may make unanimity much less likely. (For example, Netflix has 'not for me' 'I like it' and 'love this!')
+
+There are several ways this could work. For example, we could add an 'extra up-vote' option at the bottom of the QuestionDetailPage, and say it's worth +2. Similarly, we could add an explicit down-vote option there too, and call it 0 or -1.
+Note that it doesn't really matter whether we call things -1, 0, +1 or 0,1,2 - we can just adjust the results afterwards. Worth thinking through some combinations.
+
+Questions:
+\begin{itemize}
+	\item At the moment, we tally the total number of upvotes but don't subtract downvotes. Should we? Should we report the net upvote (up minus down) as a percentage? 
+	\item What's the right relative importance of down/dismiss-voting, single-up-voting and double-up-voting? -1, +1, +2?
+	\item Can we combine this with random padding to obscure who voted for what, at least somewhat?
+\end{itemize}
+
+** Question: How does EG currently handle range voting? Does it obscure how the tally was formed? That is, can we set multiple 'candidates' and sum all their tallies together without summing separate tallies?
+
+\subsection{One candidate, two votes}
+Suppose we have one candidate, and that each device can cast 2 votes (which is easy enough in EG because it's designed for settings where one pollsite computer casts multiple votes). In EG, we need a dummy that's always set up so that the sum of vote and dummy is the max value (in this case, 1).
+
+The votes would therefore look like:
+
+\begin{tabular}{lrll}
+{\bf UI}  & {\bf value }&{\bf  vote} &{\bf  dummy }\\
+Dismiss   & 0          & 0          & 1    \\
+		  &            & 0          & 1    \\ 
+		  & or  & & \\		  
+		    &            & 0          & 1    \\ \hline
+Up-vote   & +1          & 1          & 0    \\
+		  &            & 0          & 1    \\   
+		  & or  & & \\
+		  &            & 1          & 0    \\
+		  & or & & \\
+		  &            & 0          & 1    \\   
+		  &            & 1          & 0    \\  \hline
+Double-up-vote & +2          & 1          & 0    \\
+&            & 1          & 0    \\     
+\end{tabular}
+
+\paragraph{padding random values to obscure voting patterns}
+Easy - can pad with a single-row Dissmis vote, and the voter can still come along later and add a single up-vote. It would mean that they couldn't come along later and double-up-vote.
+
+The zero-pad would be indistinguishable from a single-up-vote, and the later addition of a (real) single-up-vote would be indistinguishable from double-up-voting something that had previously been single-up-voted. (This of course ignores timing issues, which might certainly allow an attacker to distinguish them.)
+
+\paragraph{shifting the zero-point to interpret the output}
+Zero, +1, +2 might not be the best interpretation of these user inputs. For example, we might prefer -1,0,+1. This scaling is easy: simply subtract 1 for each voter, regardless of whether they cast 1 or two votes. We could consider reporting both scaled and unscaled versions. For example, we could simply report total upvotes (without scaling) and then, separately, report the scaled total as a percentage.
+
+However, -1,0,+1 might not be ideal---the zero-pad is actually the same as an up-vote, which is not great. See next section for how to fix this. 
+ 
+\subsection{One candidate, three votes}
+In this section we discuss how to spread the voting values out more, so as to allow for four distinct values for dismiss/down-vote, zero-pad, up-vote and double-up-vote. The idea is similar to the above, but allows each voter to cast 3 votes.
+This time, it would only make sense to tally by subtracting 1 for each voter.
+
+The idea is that each total could be produced by some combination of 1,2 or 3 ciphertexts, with only the double-up-vote actually requiring 3 ciphertexts. For the rest, the client would be free to choose a smaller number to cast sometimes, allowing for later additions (either to increase the upvote or to cast an initial +1 upvote on something already padded with zero).
+
+The votes would look like:
+
+\begin{tabular}{lrll}
+	{\bf UI}  & {\bf value }&{\bf  vote} &{\bf  dummy }\\
+	Dismiss   & 0          & 0          & 1    \\
+  -1 after subtraction    	&       & 0          & 1    \\ 
+	&            & 0          & 1    \\ 
+	& or  & & \\		  
+	&            & 0          & 1    \\ 
+&            & 0          & 1    \\ 
+
+	& or  & & \\		  
+	&            & 0          & 1    \\ \hline
+Zero-pad	 & +1          & 1          & 0    \\
+0 after subtraction&           & 0          & 1    \\   
+& or  & & \\
+&            & 1          & 0    \\
+& or & & \\
+&            & 0          & 1    \\   
+&            & 1          & 0    \\  
+&            & 0          & 1    \\   
+& etc. & & \\ \hline
+	
+	Up-vote   & +2          & 1          & 0    \\
++1 after subtraction	&            & 1          & 1    \\   
+	& or  & & \\
+	&            & 1          & 0    \\
+	&            & 0          & 1    \\   
+	&            & 1          & 0    \\  
+	& etc. & & \\ \hline
+	Double-up-vote & +2          & 1          & 0    \\
+	&            & 1          & 0    \\     
+		&            & 1          & 0    \\     \hline
+\end{tabular}
+
+The main problem with this is that you must cast at least two ciphertexts in order to up- or double-up-vote. A single zero-pad can subsequently be (singly) up-voted, but a zero-pad with two ciphertexts can't. This would mean that either we'd have to live with relatively frequent impossible-up-votes, or we'd have to use single-ciphertext zero pads most of the time, which would be easily distinguishable from up-votes.
+
+\subsection{Up and Down candidates}
+This takes 6 ciphertexts.
+
+Suppose we have two candidates, Up and Down. Each person may vote once or twice. Each vote may contain 1 or 0 1's, so we need one padding ciphertext. The assumption is that our final tally is $T(\textit{Up}) - T(\textit{Down})$ where $T$ is EG's tallying function.
+
+The votes would look like:
+
+\begin{tabular}{lrlll}
+	{\bf UI}  & {\bf value }&{\bf  Up}&{\bf  Down} &{\bf  dummy }\\
+	Dismiss   & 1D          & 0          & 1    & 0\\
+	& or  & & & \\		  
+	&            & 0          & 1   & 0 \\ 
+	&            & 0          & 0   & 1    \\ 
+	& or  & & & \\		  
+&            & 0          & 0   & 1    \\ 
+&            & 0          & 1   & 0 \\  \hline
+	Zero-pad	 & Net 0          & 0          & 0   & 1 \\
+	& or  & & & \\
+	&            & 1          & 0   & 0  \\
+	&            & 0          & 1   & 0 \\   
+	& or  & & & \\	
+    &            & 0          & 1   & 0 \\
+	&            & 1          & 0   & 0  \\ \hline
+	
+	Up-vote   & 1U          & 1          & 0   & 0 \\
+	& or  & & & \\
+	&            & 1          & 0  & 0  \\
+	&            & 0          & 0 & 1    \\   
+	& or  & & & \\
+&            & 0          & 0 & 1    \\  
+&            & 1          & 0  & 0  \\ \hline
+	Double-up-vote & 2U          & 1          & 0  & 0  \\ 
+	&            & 1          & 0  & 0  \\     \hline
+\end{tabular}
+
+\textit{**Question: Can we get EG to tally $T(\textit{Up} - \textit{Down})$ without computing the two tallies separately? This is certainly doable with standard crypto (just aggregate the Down candidate's votes by dividing rather than multiplying) but I'm not sure that EG supports it, or that it will pass standard verification. TODO: check.  We can perhaps ask them.}
+
+If not, the main risk here is that it reveals unanimous non-existent downvotes if $T(\textit{Down}) = 0$. Perhaps we could include a 'neutral' option explicitly, i.e. a sort of manual version of the zero-pad?
+
+Apart from that, it has a lot of good properties:
+\begin{itemize}
+	\item A (single) up-vote converted into 2U is indistinguishable from a (single) zero-pad converted into either an up-vote or a down-vote. (You still can't double-up-vote something that's been zero-padded, but that's not so bad.)
+	\item A (double) up-vote is indistinguishable from a (double) dismiss, zero-pad, or double-up-vote.
+\end{itemize}
+\subsection{Up and Down candidates, with zero padding}
+
+
+\subsection{Privacy analysis of the different options}
+Note that there are several different attackers with different knowledge and power:
+\begin{itemize}
+	\item an authority, who generates (some of) the randomness,
+	\item a timing-based attacker, who sees what goes up on the BB in real time,
+	\item an after-the-fact attacker, who only sees the final state of the BB.
+\end{itemize}
 \bibliographystyle{alpha}
 \bibliography{bib}
 
