@@ -291,7 +291,7 @@ Zero-pad	 & +1          & 1          & 0    \\
 
 The main problem with this is that you must cast at least two ciphertexts in order to up- or double-up-vote. A single zero-pad can subsequently be (singly) up-voted, but a zero-pad with two ciphertexts can't. This would mean that either we'd have to live with relatively frequent impossible-up-votes, or we'd have to use single-ciphertext zero pads most of the time, which would be easily distinguishable from up-votes.
 
-\subsection{Up and Down candidates}
+\subsection{Up and Down candidates, with zero padding} \label{sec:upAndDown}
 This takes 6 ciphertexts.
 
 Suppose we have two candidates, Up and Down. Each person may vote once or twice. Each vote may contain 1 or 0 1's, so we need one padding ciphertext. The assumption is that our final tally is $T(\textit{Up}) - T(\textit{Down})$ where $T$ is EG's tallying function.
@@ -335,8 +335,38 @@ Apart from that, it has a lot of good properties:
 	\item A (single) up-vote converted into 2U is indistinguishable from a (single) zero-pad converted into either an up-vote or a down-vote. (You still can't double-up-vote something that's been zero-padded, but that's not so bad.)
 	\item A (double) up-vote is indistinguishable from a (double) dismiss, zero-pad, or double-up-vote.
 \end{itemize}
-\subsection{Up and Down candidates, with zero padding}
 
+\subsection{Extension of Section~\ref{sec:upAndDown} if EG doesn't allow summed columns}
+This significantly ameliorates the risk of unanimous 0 for 'Down'. Only relevant if EG requires us to tally it separately.
+
+Again, everyone gets two votes, each for two different candidates, Up and Down. However, the first vote is allowed up to 2 selections. This only affects Zero-pad (in a way that doesn't matter much) and single up-vote.
+
+Up-vote can now be:
+
+\begin{tabular}{lrllll}
+	{\bf UI}  & {\bf value }&{\bf  Up}&{\bf  Down} &{\bf  dummy~1 } &{\bf  dummy~2 }\\
+	
+	Up-vote   & 1U          & 1          & 0   & 1 \\
+	& or  & & & \\
+	&            & 1          & 0  & 0 & 1 \\
+	&            & 0          & 0 & 1  &   \\   
+	& or  & & & \\
+	&            & 0          & 0 & 1  & 1  \\  
+	&            & 1          & 0  & 0 &  \\ 
+		& or  & & & \\
+	&            & 1          & 1 & 0  & 0  \\  
+	&            & 1          & 0  & 0 &  \\
+		& or  & & & \\
+	&            & 1          & 0 & 1  & 0  \\  
+	&            & 1          & 1  & 0 &  \\
+\end{tabular}
+
+
+Obviously the padding can be rearranged.
+
+Now the important point is that some single up-votes will have a 1 in the Down column. Hence much less chance of unanimous zeros.
+
+I'm not sure whether EG allows different maxima for votes on the same question. If not, we'd have to add a second dummy for the second vote too, hence 8 ciphertexts per vote.
 
 \subsection{Privacy analysis of the different options}
 Note that there are several different attackers with different knowledge and power:
