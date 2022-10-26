@@ -48,6 +48,40 @@ In summary, the Right To Ask privacy model has the following characteristics.
 
 Let $V = \{ v_1, v_2,\ldots,v_B\}$ be the set of votes.
 
+\section{The super-simple solution with up- and down-votes}
+Suppose we do the simplest possible thing: allow each participant to cast either an up- or a down-vote in response to each question.
+
+\subsection{Downvotes as zero}
+Suppose we have one candidate (in ElectionGuard) and that the vote is either 1 for that candidate, or zero in the case of a down-vote.
+
+The votes would therefore look like:
+
+\begin{tabular}{lrll}
+	\\
+	{\bf UI}  & {\bf value }&{\bf  vote} &{\bf  dummy }\\
+	Down   & 0          & 0          & 1    \\
+	Up   & +1          & 1          & 0    \\ \\
+\end{tabular}
+
+This takes two ciphertexts per vote: one for the contents and one for the EG dummy.
+It is very efficient (in terms of ciphertext total) and very simple.
+
+\subsection{Downvotes as a separate candidate}
+A slightly more verbose alternative is to have two candidates: one for up and one for down.
+
+\begin{tabular}{lrlll}
+	\\
+	{\bf UI}  & {\bf value }&{\bf  up-vote} &{\bf  down-vote} & {\bf  dummy }\\
+	Down   & -1          & 0          & 1   & 0 \\
+	Up   & +1          & 1          & 0    & 0\\ 
+	Abstain/Zero & 0 & 0 & 0 & 1 \\
+\end{tabular}
+This uses 3 ciphertexts per vote.
+
+This doesn't do anything for tally unanimity, but it does allow for an 'abstain' option which might have interesting privacy implications: it could either be added explicitly as a 'meh' option in the UI, or the app could add it automatically to some questions to hide which questions the participant had actually looked at.
+
+More complicated variants on this theme are discussed in Section~\ref{sec:complexVoting}.
+
 \section{Unanimous tallies}
 
 \subsection{A very simple random model}
@@ -201,7 +235,7 @@ Suppose we can think of a way in which an existing El Gamal ciphertext can be pe
 
 TODO think of a protocol.
 
-\section{Changing the voting patterns}
+\section{Changing the voting patterns}	 \label{sec:complexVoting}
 An alternative is to leverage three or more different voting options. This doesn't remove the risk of unanimity, and doesn't solve the problem of revealing who voted on what questions, but it may make unanimity much less likely. (For example, Netflix has 'not for me' 'I like it' and 'love this!')
 
 There are several ways this could work. For example, we could add an 'extra up-vote' option at the bottom of the QuestionDetailPage, and say it's worth +2. Similarly, we could add an explicit down-vote option there too, and call it 0 or -1.
